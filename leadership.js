@@ -40,7 +40,7 @@ document.addEventListener('keydown', (e) => {
 		setBestLeader("merchant");
 	}
 	if (e.key == "x") {
-		setBestLeader("artisan");
+		setBestLeader("engineer");
 	}
 	if (e.key == "c") {
 		setBestLeader("metallurgist");
