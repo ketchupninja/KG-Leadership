@@ -1,4 +1,4 @@
-console.log("Leadership initialized");
+console.log("Leadership v1.1 initialized");
 
 function setBestLeader(traitName) {
 	var currentBest = game.village.sim.kittens[0];
@@ -7,11 +7,10 @@ function setBestLeader(traitName) {
 		var thisKitten = game.village.sim.kittens[i];
 		if(thisKitten.trait.name == traitName) {
 			
-			//choose who has more realExp
-			var realExpCurrent = currentBest.exp + calcSpentExp(currentBest.rank);
-			var realExpThis = thisKitten.exp + calcSpentExp(thisKitten.rank);
-			
-			if (realExpThis > realExpCurrent) {
+			//choose who has higher rank, else use exp
+			if (thisKitten.rank > currentBest.rank) {
+				currentBest = thisKitten;
+			} else if (thisKitten.rank == currentBest.rank && thisKitten.exp > currentBest.exp) {
 				currentBest = thisKitten;
 			}
 		}
@@ -23,16 +22,6 @@ function setBestLeader(traitName) {
 		
 	currentBest.isLeader = true;
 	game.village.leader = currentBest;
-}
-
-
-function calcSpentExp(rank) {
-	if (rank <= 0) {
-		return 0;
-	} else {
-		var thisRankCost = 500*Math.pow(1.75, rank - 1);
-		return (thisRankCost + calcSpentExp(rank - 1));
-	}
 }
 
 document.addEventListener('keydown', (e) => {
