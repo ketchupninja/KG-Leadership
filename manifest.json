@@ -1,0 +1,20 @@
+{
+
+  "manifest_version": 2,
+  "name": "KGLeadership",
+  "version": "0.1",
+
+  "description": "Adds hotkeys for leader swapping to kittensgame",
+
+  "icons": {
+    "48": "icons/testIcon.png"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["*://*.kittensgame.com/*"],
+      "js": ["leadership.js"]
+    }
+  ]
+
+}
