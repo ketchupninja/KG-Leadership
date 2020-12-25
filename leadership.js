@@ -42,6 +42,6 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('keypress', (e) => {
 	//Easy Astronomical Events
 	if (e.key == "s" && game.calendar.observeRemainingTime > 0) { game.calendar.observeHandler(); }
-}
+});
 
 
