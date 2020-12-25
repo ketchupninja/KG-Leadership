@@ -1,6 +1,9 @@
-console.log("Leadership v1.2 initialized");
+console.log("Leadership v1.21 initialized");
 
 function setBestLeader(traitName) {
+	//Best kitten with the trait found so far.
+	//Initializes to the first kitten in the game's internal list, which
+	//probably won't actually have the correct trait.
 	var currentBest = game.village.sim.kittens[0];
 	
 	for (var i = 0; i < game.village.sim.kittens.length; i++) {
@@ -15,12 +18,13 @@ function setBestLeader(traitName) {
 			}
 		}
 	}
-
+	//If someone else is the leader, unassigned them
 	if (game.village.leader){
 		game.village.leader.isLeader = false;
 	}
-		
+	//Make this kitten know it's the leader
 	currentBest.isLeader = true;
+	//Make the rest of the game know this kitten is the leader
 	game.village.leader = currentBest;
 }
 
@@ -33,10 +37,11 @@ document.addEventListener('keydown', (e) => {
 	if (e.key == "b") { setBestLeader("manager"); }
 	if (e.key == "n") { setBestLeader("scientist"); }
 	if (e.key == "m") { setBestLeader("wise"); }
-	
-	//Easy Astronomical Events
-	if (e.key == "s" && game.calendar.observeRemainingTime > 0) { game.calendar.observeHandler(); }
 });
 
+document.addEventListener('keypress', (e) => {
+	//Easy Astronomical Events
+	if (e.key == "s" && game.calendar.observeRemainingTime > 0) { game.calendar.observeHandler(); }
+}
 
 

@@ -2,13 +2,9 @@
 
   "manifest_version": 2,
   "name": "KGLeadership",
-  "version": "1.2",
+  "version": "1.21",
 
   "description": "Adds hotkeys for leader swapping to kittensgame",
-
-  "icons": {
-    "48": "icons/testIcon.png"
-  },
   
   "content_scripts": [
     {
