@@ -1,4 +1,4 @@
-console.log("Leadership v1.1 initialized");
+console.log("Leadership v1.2 initialized");
 
 function setBestLeader(traitName) {
 	var currentBest = game.village.sim.kittens[0];
@@ -25,24 +25,17 @@ function setBestLeader(traitName) {
 }
 
 document.addEventListener('keydown', (e) => {
-	if (e.key == "z") {
-		setBestLeader("merchant");
-	}
-	if (e.key == "x") {
-		setBestLeader("engineer");
-	}
-	if (e.key == "c") {
-		setBestLeader("metallurgist");
-	}
-	if (e.key == "v") {
-		setBestLeader("chemist");
-	}
-	if (e.key == "b") {
-		setBestLeader("manager");
-	}
-	if (e.key == "n") {
-		setBestLeader("scientist");
-	}
+	//Easy Leader Swapping
+	if (e.key == "z") { setBestLeader("merchant"); }
+	if (e.key == "x") { setBestLeader("engineer"); }
+	if (e.key == "c") { setBestLeader("metallurgist"); }
+	if (e.key == "v") { setBestLeader("chemist"); }
+	if (e.key == "b") { setBestLeader("manager"); }
+	if (e.key == "n") { setBestLeader("scientist"); }
+	if (e.key == "m") { setBestLeader("wise"); }
+	
+	//Easy Astronomical Events
+	if (e.key == "s" && game.calendar.observeRemainingTime > 0) { game.calendar.observeHandler(); }
 });
 
 
