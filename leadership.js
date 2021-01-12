@@ -1,4 +1,4 @@
-console.log("Leadership v1.3 initialized");
+console.log("Leadership v1.31 initialized");
 
 //Initialize update function to run every n milliseconds
 setInterval(update, 500);
@@ -84,9 +84,6 @@ function keyup (evt) {
 	//Easy Astronomical Events
 	if (evt.keyCode == 83 && game.calendar.observeRemainingTime > 0) { //"s" key
 		game.calendar.observeHandler();
-	}
-	if (evt.keyCode == 83) {
-		gamePage.togglePause();
 	}
 	
 }
