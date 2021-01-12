@@ -1,4 +1,4 @@
-console.log("Leadership v1.31 initialized");
+console.log("Leadership v1.32 initialized");
 
 //Initialize update function to run every n milliseconds
 setInterval(update, 500);
@@ -114,12 +114,19 @@ function rankAvailable(traitName) {
 function rankNotify() {
 	var bonfireName = game.villageTab.tabName;
 	
-	let traits = ["merchant", "engineer", "metallurgist", "chemist"]; //other traits not really important
-	let notifyStrings = ["(MT)","(AN)", "(ML)", "(CM)"];
+	let traits = ["merchant", "engineer", "metallurgist"]; //other traits not really important
+	let notifyStrings = ["(MT)","(AN)", "(ML)"];
 	
 	for (var i = 0; i < traits.length; i++) {
 		if (rankAvailable(traits[i])) {
 			bonfireName += notifyStrings[i];
+		}
+	}
+	
+	//Only show (CM) after Chemist is usable
+	if (game.science.techs[42].unlocked) { //oil processing
+		if (rankAvailable("chemist") {
+			bonfireName += "(CM)";
 		}
 	}
 	game.villageTab.domNode.innerHTML = bonfireName;
