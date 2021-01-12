@@ -1,4 +1,4 @@
-console.log("Leadership v1.32 initialized");
+console.log("Leadership v1.321 initialized");
 
 //Initialize update function to run every n milliseconds
 setInterval(update, 500);
@@ -125,7 +125,7 @@ function rankNotify() {
 	
 	//Only show (CM) after Chemist is usable
 	if (game.science.techs[42].unlocked) { //oil processing
-		if (rankAvailable("chemist") {
+		if (rankAvailable("chemist")) {
 			bonfireName += "(CM)";
 		}
 	}
