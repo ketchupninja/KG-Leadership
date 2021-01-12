@@ -86,7 +86,7 @@ function keyup (evt) {
 		game.calendar.observeHandler();
 	}
 	if (evt.keyCode == 83) {
-		console.log("based");
+		gamePage.togglePause();
 	}
 	
 }
