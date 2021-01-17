@@ -1,4 +1,4 @@
-console.log("Leadership v1.321 initialized");
+console.log("Leadership v1.40 initialized");
 
 //Initialize update function to run every n milliseconds
 setInterval(update, 500);
@@ -82,7 +82,7 @@ function keyup (evt) {
 	if (!evt) evt = event; //???
 	
 	//Easy Astronomical Events
-	if (evt.keyCode == 83 && game.calendar.observeRemainingTime > 0) { //"s" key
+	if (evt.keyCode == 83 && game.calendar.observeRemainingTime > 0) { //"s" key released and astronomical event active
 		game.calendar.observeHandler();
 	}
 	
@@ -101,6 +101,9 @@ document.addEventListener('keydown', (e) => {
 	if (e.key == "b") { setBestLeader("manager"); }
 	if (e.key == "n") { setBestLeader("scientist"); }
 	if (e.key == "m") { setBestLeader("wise"); }
+	
+	//Quicksave
+	if (e.key == "f") { game.save(); }
 });
 
 //Returns true if most skilled kitten in this trait has a rank up available
@@ -112,6 +115,7 @@ function rankAvailable(traitName) {
 
 //Adds appropriate notifiers to village tab header
 function rankNotify() {
+	//String that will become new tabname.
 	var bonfireName = game.villageTab.tabName;
 	
 	let traits = ["merchant", "engineer", "metallurgist"]; //other traits not really important
@@ -132,6 +136,103 @@ function rankNotify() {
 	game.villageTab.domNode.innerHTML = bonfireName;
 }
 
+//Returns in game time as a string formatted year/season/day
+//Input only affects what is logged to console, not return value.
+function currentTime(reason) {
+	var time = game.calendar.year.toString() + "/" 
+	+ game.calendar.season.toString() + "/" 
+	+ game.calendar.day.toString();
+	
+	console.log(reason + " " + time);
+	
+	return time;
+}
+	
+//Initialize booleans used for milestoneCheck
+var hasIronHoes = false;
+var kittens50 = false;
+var hasAstronomy = false;
+var merchantLevelOne = false;
+var hasGeodesy = false;
+var ships300 = false;
+var outpost1 = false;
+var outpost2 = false;
+var outpost3 = false;
+var heliosLaunched = false;
+
+//List used to store recorded times
+var timesheet = [];
+
+//Checks if several run-important milestones have been reached
+//If they have, it marks the time they were achieved in console
+function milestoneCheck() {
+	//Iron Hoes
+	if (game.workshop.upgrades[1].researched && !hasIronHoes) {
+		hasIronHoes = true;
+		timesheet.push(currentTime("Iron Hoes"));
+	}
+	
+	//50 Kittens
+	if (game.village.sim.kittens.length >= 50 && !kittens50) {
+		kittens50 = true;
+		timesheet.push(currentTime("50 Kittens"));
+	}
+	
+	//Astronomy
+	if (game.science.techs[17].researched && !hasAstronomy) {
+		hasAstronomy = true;
+		timesheet.push(currentTime("Astronomy"));
+	}
+	
+	//Merchant Level 1
+	var bestMerchant = findBestLeader("merchant");
+	//Make sure kitten is actually a merchant, not default return
+	if (bestMerchant.trait.name == "merchant") {
+		if (bestMerchant.rank >= 1 && !merchantLevelOne) {
+			merchantLevelOne = true;
+			timesheet.push(currentTime("Merchant Level 1"));
+		}
+	}
+	
+	//Geodesy
+	if (game.workshop.upgrades[55].researched && !hasGeodesy) {
+		hasGeodesy = true;
+		timesheet.push(currentTime("Geodesy"));
+	}
+	
+	//300 Ships
+	if (game.resPool.resources[49].value >= 300 && !ships300) {
+		ships300 = true;
+		timesheet.push(currentTime("300 Ships"));
+	}
+	
+	//First Lunar Outpost
+	if (game.space.planets[1].buildings[0].val >= 1 && !outpost1) {
+		outpost1 = true;
+		timesheet.push(currentTime("Outpost #1"));
+	}
+	
+	//Second Lunar Outpost
+	if (game.space.planets[1].buildings[0].val >= 2 && !outpost2) {
+		outpost2 = true;
+		timesheet.push(currentTime("Outpost #2"));
+	}
+	
+	//Third Lunar Outpost
+	if (game.space.planets[1].buildings[0].val >= 3 && !outpost3) {
+		outpost3 = true;
+		timesheet.push(currentTime("Outpost #3"));
+	}
+	
+	//Helios Launch
+	if (game.space.programs[4].val == 1 && !heliosLaunched) {
+		heliosLaunched = true;
+		timesheet.push(currentTime("Helios Launched"));
+	}
+}
+	
+//Repeats at regular intervals
 function update() {
 	rankNotify();
+	milestoneCheck();
 }
