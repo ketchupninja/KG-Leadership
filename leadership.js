@@ -1,10 +1,15 @@
-console.log("Leadership v1.40 initialized");
+console.log("Leadership v1.50 initialized");
 
-//Initialize update function to run every n milliseconds
-setInterval(update, 500);
+//Initialize leadershipTick function to run every n milliseconds
+setInterval(leadershipTick, 500);
 
 //Find and return best leader for given trait
 function findBestLeader(traitName) {
+	
+	if (game.village.sim.kittens.length == 0) {
+		return;
+	}
+	
 	//Best kitten with the trait found so far.
 	//Initializes to the first kitten in the game's internal list, which
 	//probably won't actually have the correct trait.
@@ -41,6 +46,21 @@ function setBestLeader(traitName) {
 	game.village.leader = bestLeader;
 }
 
+//Find kitten with the given job
+function findJobKitten(jobName) {
+	
+	for (var i = 0; i < game.village.sim.kittens.length; i++) {
+		var thisKitten = game.village.sim.kittens[i];
+		
+		if (thisKitten.job == jobName) {
+			return thisKitten;
+		}
+	}
+	
+	return null; //No valid kitten found
+}
+
+
 // https://stackoverflow.com/questions/5203407/how-to-detect-if-multiple-keys-are-pressed-at-once-using-javascript 
 //==============================
 document.onkeydown = keydown; 
@@ -49,7 +69,7 @@ function keydown (evt) {
 	if (!evt) evt = event; //???
 	
 	//Easy Pawse/Unpawse
-	if (evt.keyCode == 32) { //Space
+	if (evt.keyCode == 192) { //' or ~
 		gamePage.togglePause();
 	}
 	
@@ -102,8 +122,19 @@ document.addEventListener('keydown', (e) => {
 	if (e.key == "n") { setBestLeader("scientist"); }
 	if (e.key == "m") { setBestLeader("wise"); }
 	
+	
+	//Easy Worker Assignment
+	if (e.key == "q") { game.village.assignJob(game.village.getJob("woodcutter"), 1) ; }
+	if (e.key == "w") { game.village.assignJob(game.village.getJob("farmer"), 1) ; }
+	if (e.key == "e") { game.village.assignJob(game.village.getJob("scholar"), 1) ; }
+	if (e.key == "r") { game.village.assignJob(game.village.getJob("hunter"), 1) ; }
+	if (e.key == "t") { game.village.assignJob(game.village.getJob("miner"), 1) ; }
+	if (e.key == "y") { game.village.assignJob(game.village.getJob("geologist"), 1) ; }
+	
 	//Quicksave
 	if (e.key == "f") { game.save(); }
+	
+	
 });
 
 //Returns true if most skilled kitten in this trait has a rank up available
@@ -139,8 +170,10 @@ function rankNotify() {
 //Returns in game time as a string formatted year/season/day
 //Input only affects what is logged to console, not return value.
 function currentTime(reason) {
+	var readableSeason = game.calendar.season + 1;
+	
 	var time = game.calendar.year.toString() + "/" 
-	+ game.calendar.season.toString() + "/" 
+	+ readableSeason.toString() + "/" 
 	+ game.calendar.day.toString();
 	
 	console.log(reason + " " + time);
@@ -232,7 +265,7 @@ function milestoneCheck() {
 }
 	
 //Repeats at regular intervals
-function update() {
+function leadershipTick() {
 	rankNotify();
 	milestoneCheck();
 }
