@@ -1,4 +1,4 @@
-console.log("Leadership v1.52 initalized");
+console.log("Leadership v1.53 initalized");
 
 //Initialize leadershipTick function to run every n milliseconds
 setInterval(leadershipTick, 500);
@@ -295,9 +295,9 @@ function milestoneCheck() {
 	bestScholar = findBestWorker("scholar").skills["scholar"];
 	bestHunter = findBestWorker("hunter").skills["hunter"];
 	bestGeo = findBestWorker("geologist").skills["geologist"];
-	let array = [bestScholar, bestHunter, bestGeo];
+	let skillArray = [bestScholar, bestHunter, bestGeo];
 	
-	if (Math.max(array) >= 9000) {
+	if (Math.max.apply(Math, skillArray) >= 9000) {
 		master = true;
 		masterInfo = currentTime("Master");
 	}
