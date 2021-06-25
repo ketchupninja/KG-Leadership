@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.6016 test initalized");
+console.log("Leadership v1.6017 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
@@ -297,18 +297,19 @@ const lunar1 = new Milestone("Lunar Outpost #1", () => game.space.planets[1].bui
 
 const astrophys = new Milestone("Astrophysicists", () => game.workshop.upgrades[123].researched);
 const cryo = new Milestone("Cryochamber", () => game.time.voidspaceUpgrades[0].val >= 1, ["academy", "observatory", "steamworks", "magneto", "factory"], true);
-const master = new Milestone("Master", () => Math.max.apply(Math, Milestone.skillArray) >= 9000);
+const master = new Milestone("Master", () => masterExists() );
 
 
-
-//Keeps array of most skilled kittens up to date
-function skillManage() {
-	//empty skillArray
-	Milestone.skillArray.splice(0, skillArray.length);
-	//fill it
-	Milestone.skillArray.push(findBestWorker("scholar").skills["scholar"]);
-	Milestone.skillArray.push(findBestWorker("hunter").skills["hunter"]);
-	Milestone.skillArray.push(findBestWorker("geologist").skills["geologist"]);
+function masterExists() {
+	
+	//check best worker in each job
+	jobs = ["woodcutter", "farmer", "scholar", "hunter", "miner", "geologist", "priest"];
+	
+	for (var job in jobs) {
+		if findBestWorker(job).skills(job) >= 9000 { return true; }
+	}
+	//none found
+	return false;
 }
 
 //Checks if several run-important milestones have been reached
@@ -328,7 +329,6 @@ function milestoneCheck() {
 //Repeats at regular intervals
 function leadershipTick() {
 	rankNotify();
-	skillManage();
 	milestoneCheck();
 	
 }
