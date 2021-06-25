@@ -281,7 +281,7 @@ Milestone.blu = {"academy" : 7, "observatory": 8, "steamworks": 17, "magneto": 1
 	
 //Also includes a building counts
 
-
+var Milestone.skillArray = [];
 
 const ironHoes = new Milestone("Iron Hoes", () => game.workshop.upgrades[1].researched);
 const kittens50 = new Milestone("50 Kittens", () => game.village.sim.kittens.length >= 50);
@@ -297,18 +297,18 @@ const lunar1 = new Milestone("Lunar Outpost #1", () => game.space.planets[1].bui
 
 const astrophys = new Milestone("Astrophysicists", () => game.workshop.upgrades[123].researched);
 const cryo = new Milestone("Cryochamber", () => game.time.voidspaceUpgrades[0].val >= 1, ["academy", "observatory", "steamworks", "magneto", "factory"], true);
-const master = new Milestone("Master", () => Math.max.apply(Math, skillArray) >= 9000);
+const master = new Milestone("Master", () => Math.max.apply(Math, Milestone.skillArray) >= 9000);
 
-var skillArray = [];
+
 
 //Keeps array of most skilled kittens up to date
 function skillManage() {
 	//empty skillArray
-	skillArray.splice(0, skillArray.length);
+	Milestone.skillArray.splice(0, skillArray.length);
 	//fill it
-	skillArray.push(findBestWorker("scholar").skills["scholar"]);
-	skillArray.push(findBestWorker("hunter").skills["hunter"]);
-	skillArray.push(findBestWorker("geologist").skills["geologist"]);
+	Milestone.skillArray.push(findBestWorker("scholar").skills["scholar"]);
+	Milestone.skillArray.push(findBestWorker("hunter").skills["hunter"]);
+	Milestone.skillArray.push(findBestWorker("geologist").skills["geologist"]);
 }
 
 //Checks if several run-important milestones have been reached
