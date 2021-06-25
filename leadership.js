@@ -2,16 +2,17 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.6013 test initalized");
+console.log("Leadership v1.6014 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
+//Leadership now ticks every 1 second , up from 0.5 seconds
 
 //Milestones reworked internally
 
 
 //Initialize leadershipTick function to run every n milliseconds
-setInterval(leadershipTick, 500);
+setInterval(leadershipTick, 1000);
 
 //Returns worker that is best at given job
 function findBestWorker(jobName) {
@@ -281,35 +282,30 @@ Milestone.allMilestones = [];
 const ironHoes = new Milestone("Iron Hoes", () => game.workshop.upgrades[1].researched);
 const kittens50 = new Milestone("50 Kittens", () => game.village.sim.kittens.length >= 50);
 const astro = new Milestone("Astronomy", () => game.science.techs[17].researched);
+const acad130 = new Milestone("130 Academies", () => game.bld.buildingsData[7].val >= 130);
+const merchant1 = new Milestone("Merchant Level 1", () => bestMerchant.rank >= 1 && bestMerchant.trait.name == "merchant");
 
+const geodesy = new Milestone("Geodesy", () => game.workshop.upgrades[55].researched);
+const seti = new Milestone("SETI", () => game.workshop.upgrades[110].researched);
+const orbital = new Milestone("Orbital Launch", () => game.space.planets[0].unlocked);
+const moon = new Milestone("Moon Mission", () => game.space.planets[1].unlocked);
+const lunar1 = new Milestone("Lunar Outpost #1", () => game.space.planets[1].buildings[0].val >= 1);
 
-
-
-
-
-/*
-var hasAstronomy = false;
-var acad130 = false;
-var merchantLevelOne = false;
-
-var hasSETI = false;
-var hasGeodesy = false;
-
-var outpost1 = false;
-var aphys = false;
-
-var cryo = false;
-
-
-var orbitalLaunch = false;
-var moonMission = false;
-
-var master = false; */
-
-
+const astrophys = new Milestone("Astrophysicists", () => game.workshop.upgrades[123].researched);
+const cryo = new Milestone("Cryochamber", () => game.time.voidspaceUpgrades[0].val >= 1);
+const master = new Milestone("Master", () => Math.max.apply(Math, skillArray) >= 9000);
 
 var skillArray = [];
 
+//Keeps array of most skilled kittens up to date
+function skillManage() {
+	//empty skillArray
+	skillArray.splice(0, skillArray.length);
+	//fill it
+	skillArray.push(findBestWorker("scholar").skills["scholar"]);
+	skillArray.push(findBestWorker("hunter").skills["hunter"]);
+	skillArray.push(findBestWorker("geologist").skills["geologist"]);
+}
 
 //Checks if several run-important milestones have been reached
 //If they have, it marks the time they were achieved in console
@@ -323,95 +319,12 @@ function milestoneCheck() {
 			ms.record();
 		}
 	}
-	
-	/*
-	//130 Academies
-	if (game.bld.buildingsData[7].val >= 130 && !acad130) {
-		acad130 = true;
-		timesheet.push(currentTime("130 Academies"));
-	}
-	
-	//Merchant Level 1
-	var bestMerchant = findBestLeader("merchant");
-	//Make sure kitten is actually a merchant, not default return
-	if (bestMerchant.trait.name == "merchant") {
-		if (bestMerchant.rank >= 1 && !merchantLevelOne) {
-			merchantLevelOne = true;
-			timesheet.push(currentTime("Merchant Level 1") + "academy count");
-		}
-	}
-	
-	//Geodesy
-	if (game.workshop.upgrades[55].researched && !hasGeodesy) {
-		hasGeodesy = true;
-		timesheet.push(currentTime("Geodesy") + "SW count" + "mag count" + "Obs count");
-	}
-	
-	
-
-
-	//SETI
-	
-	if (game.workshop.upgrades[110].researched && !hasSETI) {
-		hasSETI = true;
-		timesheet.push(currentTime("SETI") + "obs count")
-	}
-	
-	//Orbital Launch
-	
-	if (game.space.planets[0].unlocked && !orbitalLaunch) {
-		orbitalLaunch = true;
-		timesheet.push(currentTime("Orbital Launch") + "obs count");
-	}
-	
-	//Moon mission
-	
-	if (game.space.planets[1].unlocked && !moonMission) {
-		moonMission = true;
-		timesheet.push(currentTime("Moon Mission") + "obs count");
-	}
-	
-	//First Lunar Outpost
-	if (game.space.planets[1].buildings[0].val >= 1 && !outpost1) {
-		outpost1 = true;
-		timesheet.push(currentTime("Outpost #1"));
-	}
-	
-	//Astrophysicists
-	if (game.workshop.upgrades[123].researched && !aphys) {
-		aphys = true;
-		timesheet.push(currentTime("Astrophysicists") + "Obs count");
-	}
-	
-	//Cryochamber
-	
-	if (game.time.voidspaceUpgrades[0].val >= 1 && !cryo) {
-		cryo = true;
-		timesheet.push(currentTime("Cryochamber") +  "lunar count" + "factory count");
-	}
-	
-	
-	//Master
-	
-	//empty skillArray
-	skillArray.splice(0, skillArray.length);
-	//fill it
-	skillArray.push(findBestWorker("scholar").skills["scholar"]);
-	skillArray.push(findBestWorker("hunter").skills["hunter"]);
-	skillArray.push(findBestWorker("geologist").skills["geologist"]);
-	
-	//Check for master EXP
-	if (Math.max.apply(Math, skillArray) >= 9000) {
-		master = true;
-		timesheet.push(currentTime("Master"));
-	}
-	
-	*/
 }
 
 //Repeats at regular intervals
 function leadershipTick() {
 	rankNotify();
+	skillManage();
 	milestoneCheck();
 	
 }
