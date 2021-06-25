@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.6017 test initalized");
+console.log("Leadership v1.6018 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
@@ -306,7 +306,7 @@ function masterExists() {
 	jobs = ["woodcutter", "farmer", "scholar", "hunter", "miner", "geologist", "priest"];
 	
 	for (var job in jobs) {
-		if findBestWorker(job).skills(job) >= 9000 { return true; }
+		if (findBestWorker(job).skills(job) >= 9000) { return true; }
 	}
 	//none found
 	return false;
