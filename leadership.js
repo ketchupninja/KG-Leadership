@@ -2,12 +2,11 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.603 test initalized");
-//v1.60X test
+console.log("Leadership v2.0 initalized");
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
 //Leadership now ticks every 1 second , up from 0.5 seconds
-
+//(CM) indicator now appears when concrete is unlocked
 //Milestones reworked internally
 
 
@@ -193,8 +192,8 @@ function rankNotify() {
 		}
 	}
 	
-	//Only show (CM) after Chemist is usable
-	if (game.science.techs[42].unlocked) { //oil processing
+	//Only show (CM) after mechanization (concrete) is researched
+	if (game.science.techs[31].unlocked) { //mechanization
 		if (rankAvailable("chemist")) {
 			bonfireName += "(CM)";
 		}
