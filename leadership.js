@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.608 test initalized");
+console.log("Leadership v1.609 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
@@ -258,7 +258,7 @@ class Milestone {
 	
 	//Check if condition has been fulfilled
 	checkCND() {
-		if (condition) { this.fulfilled = true; }
+		if (this.condition) { this.fulfilled = true; }
 	}
 	
 	isFulfilled() {
