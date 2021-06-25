@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.6014 test initalized");
+console.log("Leadership v1.6015 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
@@ -213,11 +213,12 @@ class Milestone {
 		//console.log(condition);
 		this.condition = condition;
 		
-		if (ids === undefined) {
-			this.btr = [];
-		} else {
-			this.btr = ids; //list of building IDs of buildings to report
-			//7 academy, 8 obs, 17 SW, 18 mag, 22 factory
+		this.btr = []
+		if (ids != undefined) {
+			for (var bld in ids) {
+				id = Milestone.blu[bld]; //get number
+				btr.push(id);
+			}
 		}
 		
 		this.fulfilled = false; 
@@ -273,26 +274,29 @@ Milestone.timesheet = [];
 	
 //List of unfulfilled milestones
 Milestone.allMilestones = [];
+
+//dictionary for building names to ids, "building lookup
+//7 academy, 8 obs, 17 SW, 18 mag, 22 factory
+Milestone.blu = {"academy" : 7, "observatory": 8, "steamworks": 17, "magneto": 18, "factory" : 22};
 	
 //Also includes a building counts
 
-//Initialize booleans used for milestoneCheck
-//var hasIronHoes = false;
+
 
 const ironHoes = new Milestone("Iron Hoes", () => game.workshop.upgrades[1].researched);
 const kittens50 = new Milestone("50 Kittens", () => game.village.sim.kittens.length >= 50);
-const astro = new Milestone("Astronomy", () => game.science.techs[17].researched);
+const astro = new Milestone("Astronomy", () => game.science.techs[17].researched, ["academy"]);
 const acad130 = new Milestone("130 Academies", () => game.bld.buildingsData[7].val >= 130);
-const merchant1 = new Milestone("Merchant Level 1", () => bestMerchant.rank >= 1 && bestMerchant.trait.name == "merchant");
+const merchant1 = new Milestone("Merchant Level 1", () => bestMerchant.rank >= 1 && bestMerchant.trait.name == "merchant", ["academy", "observatory"]);
 
-const geodesy = new Milestone("Geodesy", () => game.workshop.upgrades[55].researched);
+const geodesy = new Milestone("Geodesy", () => game.workshop.upgrades[55].researched, ["academy", "observatory", "steamworks", "magneto"]);
 const seti = new Milestone("SETI", () => game.workshop.upgrades[110].researched);
 const orbital = new Milestone("Orbital Launch", () => game.space.planets[0].unlocked);
 const moon = new Milestone("Moon Mission", () => game.space.planets[1].unlocked);
-const lunar1 = new Milestone("Lunar Outpost #1", () => game.space.planets[1].buildings[0].val >= 1);
+const lunar1 = new Milestone("Lunar Outpost #1", () => game.space.planets[1].buildings[0].val >= 1, ["academy", "observatory", "steamworks", "magneto", "factory"]);
 
 const astrophys = new Milestone("Astrophysicists", () => game.workshop.upgrades[123].researched);
-const cryo = new Milestone("Cryochamber", () => game.time.voidspaceUpgrades[0].val >= 1);
+const cryo = new Milestone("Cryochamber", () => game.time.voidspaceUpgrades[0].val >= 1, ["academy", "observatory", "steamworks", "magneto", "factory"], true);
 const master = new Milestone("Master", () => Math.max.apply(Math, skillArray) >= 9000);
 
 var skillArray = [];
