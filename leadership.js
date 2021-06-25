@@ -2,8 +2,8 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.60 test initalized");
-//v1.60 test
+console.log("Leadership v1.601 test initalized");
+//v1.601 test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
 
@@ -232,7 +232,7 @@ class Milestone {
 	
 		
 	//Write down current game time , label, and any needed building counts to 'timesheet'
-	record() {
+	get record() {
 		if (!this.recorded) {
 			var readableSeason = game.calendar.season + 1;
 			
@@ -255,7 +255,7 @@ class Milestone {
 	}
 	
 	//Check if condition has been fulfilled
-	checkCND() {
+	get checkCND() {
 		if (condition) { this.fulfilled = true; }
 	}
 	
