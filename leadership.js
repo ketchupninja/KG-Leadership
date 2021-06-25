@@ -1,9 +1,19 @@
-console.log("Leadership v1.54 initalized");
+//Javascript addon for the web-game Kittensgame, designed to make
+//provide keyboard shortcuts for common actions and make
+//more information available to the player. 
+
+console.log("Leadership v1.60 test initalized");
+//v1.60 test
+//Timesheet now includes counts of buildings at some milestones
+//e.g. observatories, magnetos, steamworks
+
+//Milestones reworked internally
+
 
 //Initialize leadershipTick function to run every n milliseconds
 setInterval(leadershipTick, 500);
 
-
+//Returns worker that is best at given job
 function findBestWorker(jobName) {
 		if(game.village.sim.kittens.length == 0) {
 			return;
@@ -39,7 +49,7 @@ function findBestLeader(traitName) {
 		var thisKitten = game.village.sim.kittens[i];
 		if(thisKitten.trait.name == traitName) {
 			
-			//choose who has higher rank, else use exp
+			//choose who has higher rank, else choose highest exp
 			if (thisKitten.rank > currentBest.rank) {
 				currentBest = thisKitten;
 			} else if (thisKitten.rank == currentBest.rank && thisKitten.exp > currentBest.exp) {
@@ -84,12 +94,12 @@ function findJobKitten(jobName) {
 // https://stackoverflow.com/questions/5203407/how-to-detect-if-multiple-keys-are-pressed-at-once-using-javascript 
 //==============================
 document.onkeydown = keydown; 
-
+//Handle hotkey presses
 function keydown (evt) { 
-	if (!evt) evt = event; //???
+	if (!evt) evt = event; 
 	
-	//Easy Pawse/Unpawse
-	if (evt.keyCode == 192) { //' or ~
+	//Easy Pause/Unpause
+	if (evt.keyCode == 192) { // ' or ~
 		gamePage.togglePause();
 	}
 	
@@ -114,12 +124,44 @@ function keydown (evt) {
 		var bestChemist = findBestLeader("chemist");
 		game.village.sim.promote(bestChemist, bestChemist.rank + 1);
 	}
+	
+	//Easy Leader Swapping
+	if (evt.keyCode == 90) { setBestLeader("merchant"); } //z
+	if (evt.keyCode == 88) { setBestLeader("engineer"); } //x, artisan
+	if (evt.keyCode == 67) { setBestLeader("metallurgist"); } //c
+	if (evt.keyCode == 86) { setBestLeader("chemist"); } //v
+	
+	
+	//Easy Worker Assignment
+	let workerAssignButtons = [81, 87, 69, 82, 84, 89]; //q, w, e, r, t, y
+	
+	//PATCH: STRANGE ACCELERATED BEHAVIOR WHEN HOLDING ASSIGN BUTTONS
+	//attempted fix
+	freeKitten = game.village.hasFreeKittens(1);
+	
+	if (freeKitten) {
+		if (evt.keyCode == 81 && game.village.jobs[0].unlocked) { game.village.assignJob(game.village.getJob("woodcutter"), 1) ; } //q
+		if (evt.keyCode == 87 && game.village.jobs[1].unlocked) { game.village.assignJob(game.village.getJob("farmer"),     1) ; } //w
+		if (evt.keyCode == 69 && game.village.jobs[2].unlocked) { game.village.assignJob(game.village.getJob("scholar"),    1) ; } //e
+		if (evt.keyCode == 82 && game.village.jobs[3].unlocked) { game.village.assignJob(game.village.getJob("hunter"),     1) ; } //r
+		if (evt.keyCode == 84 && game.village.jobs[4].unlocked) { game.village.assignJob(game.village.getJob("miner"),      1) ; } //t
+		if (evt.keyCode == 89 && game.village.jobs[6].unlocked) { game.village.assignJob(game.village.getJob("geologist"),  1) ; } //y
+	}
+	
+	//Re-render village name on remote worker assign to accurately display unemployed kitten total
+	if (workerAssignButtons.includes(e.key)) {
+		game.render();
+	}
+	//Quicksave
+	if (evt.keyCode == 70) { game.save(); } //f
+	
 }
 
 document.onkeyup = keyup;
 
+//Key Release 
 function keyup (evt) {
-	if (!evt) evt = event; //???
+	if (!evt) evt = event; 
 	
 	//Easy Astronomical Events
 	if (evt.keyCode == 83 && game.calendar.observeRemainingTime > 0) { //"s" key released and astronomical event active
@@ -128,39 +170,6 @@ function keyup (evt) {
 	
 }
 
-//==============================
-
-
-//Listener to handle hotkeys
-document.addEventListener('keydown', (e) => {
-	//Easy Leader Swapping
-	if (e.key == "z") { setBestLeader("merchant"); }
-	if (e.key == "x") { setBestLeader("engineer"); } //artisan
-	if (e.key == "c") { setBestLeader("metallurgist"); }
-	if (e.key == "v") { setBestLeader("chemist"); }
-	if (e.key == "b") { setBestLeader("manager"); }
-	if (e.key == "n") { setBestLeader("scientist"); }
-	if (e.key == "m") { setBestLeader("wise"); }
-	
-	
-	//Easy Worker Assignment
-	let workerAssignButtons = ["q", "w", "e", "r", "t", "y"];
-	
-	if (e.key == "q") { game.village.assignJob(game.village.getJob("woodcutter"), 1) ; }
-	if (e.key == "w") { game.village.assignJob(game.village.getJob("farmer"), 1) ; }
-	if (e.key == "e") { game.village.assignJob(game.village.getJob("scholar"), 1) ; }
-	if (e.key == "r") { game.village.assignJob(game.village.getJob("hunter"), 1) ; }
-	if (e.key == "t") { game.village.assignJob(game.village.getJob("miner"), 1) ; }
-	if (e.key == "y") { game.village.assignJob(game.village.getJob("geologist"), 1) ; }
-	
-	if (workerAssignButtons.includes(e.key)) {
-		game.render();
-	}
-	//Quicksave
-	if (e.key == "f") { game.save(); }
-	
-	
-});
 
 //Returns true if most skilled kitten in this trait has a rank up available
 function rankAvailable(traitName) {
@@ -192,59 +201,131 @@ function rankNotify() {
 	game.villageTab.domNode.innerHTML = bonfireName;
 }
 
-//Returns in game time as a string formatted year/season/day
-//Input only affects what is logged to console, not return value.
-function currentTime(reason) {
-	var readableSeason = game.calendar.season + 1;
+
+
+class Milestone {
 	
-	var time = game.calendar.year.toString() + "/" 
-	+ readableSeason.toString() + "/" 
-	+ game.calendar.day.toString();
+
 	
-	var output = reason + " " + time;
+	constructor(label, condition, ids, outpost) {
+		this.label = label;
+		this.condition = condition;
+		
+		if (ids === undefined) {
+			this.btr = [];
+		} else {
+			this.btr = ids; //list of building IDs of buildings to report
+			//7 academy, 8 obs, 17 SW, 18 mag, 22 factory
+		}
+		
+		this.fulfilled = false; 
+		this.recorded = false;
+		
+		if (outpost === undefined) {
+			this.outpost = false; //whether to report lunar outpost count 
+		} else {
+			this.outpost = true;
+		}
 	
-	return output
+		Milestone.allMilestones.push(this);
+	}
+	
+		
+	//Write down current game time , label, and any needed building counts to 'timesheet'
+	record() {
+		if (!this.recorded) {
+			var readableSeason = game.calendar.season + 1;
+			
+			var time = game.calendar.year.toString() + "/" 
+						+ readableSeason.toString() + "/" 
+						+ game.calendar.day.toString();
+						
+			ret = this.label + " " + time
+			
+			
+			for (id in btr) {
+				ret += " with " + game.bld.buildingsData[id].val + " " + game.bld.buildingsData[id].name;
+			}
+			
+			if (this.outpost) { ret += " with " + game.space.planets[1].buildings[0].val; }
+			
+			Milestone.timesheet.push(ret);
+			this.recorded = true;
+		}
+	}
+	
+	//Check if condition has been fulfilled
+	checkCND() {
+		if (condition) { this.fulfilled = true; }
+	}
+	
+	get isFulfilled() {
+		return this.fulfilled;
+	}
+	
 }
+
+//Milestone class has static list Timesheet (?)
+Milestone.timesheet = [];
 	
+//List of unfulfilled milestones
+Milestone.allMilestones = [];
+	
+//Also includes a building counts
+
 //Initialize booleans used for milestoneCheck
-var hasIronHoes = false;
-var kittens50 = false;
+//var hasIronHoes = false;
+
+const ironHoes = new Milestone("Iron Hoes", () => (game.workshop.upgrades[1].researched) );
+const kittens50 = new Milestone("50 Kittens", () => (game.village.sim.kittens.length >= 50) );
+const astro = new Milestone("Astronomy", () => (game.science.techs[17].researched) );
+
+
+
+
+
+
+/*
 var hasAstronomy = false;
+var acad130 = false;
 var merchantLevelOne = false;
+
+var hasSETI = false;
 var hasGeodesy = false;
-var ships300 = false;
+
 var outpost1 = false;
-var outpost2 = false;
-var outpost3 = false;
-var heliosLaunched = false;
+var aphys = false;
 
-var master = false;
-var masterInfo = "";
+var cryo = false;
 
-//List used to store recorded times
-var timesheet = [];
+
+var orbitalLaunch = false;
+var moonMission = false;
+
+var master = false; */
+
+
 
 var skillArray = [];
+
 
 //Checks if several run-important milestones have been reached
 //If they have, it marks the time they were achieved in console
 function milestoneCheck() {
-	//Iron Hoes
-	if (game.workshop.upgrades[1].researched && !hasIronHoes) {
-		hasIronHoes = true;
-		timesheet.push(currentTime("Iron Hoes"));
+	
+	for (ms in Milestone.allMilestones) {
+		ms.checkCND();
+		
+		if (ms.isFulfilled) { 
+			ms.record();
+		}
 	}
 	
-	//50 Kittens
-	if (game.village.sim.kittens.length >= 50 && !kittens50) {
-		kittens50 = true;
-		timesheet.push(currentTime("50 Kittens"));
-	}
-	
-	//Astronomy
-	if (game.science.techs[17].researched && !hasAstronomy) {
-		hasAstronomy = true;
-		timesheet.push(currentTime("Astronomy"));
+	/*
+	//130 Academies
+	if (game.bld.buildingsData[7].val >= 130 && !acad130) {
+		acad130 = true;
+		timesheet.push(currentTime("130 Academies"));
 	}
 	
 	//Merchant Level 1
@@ -253,20 +334,38 @@ function milestoneCheck() {
 	if (bestMerchant.trait.name == "merchant") {
 		if (bestMerchant.rank >= 1 && !merchantLevelOne) {
 			merchantLevelOne = true;
-			timesheet.push(currentTime("Merchant Level 1"));
+			timesheet.push(currentTime("Merchant Level 1") + "academy count");
 		}
 	}
 	
 	//Geodesy
 	if (game.workshop.upgrades[55].researched && !hasGeodesy) {
 		hasGeodesy = true;
-		timesheet.push(currentTime("Geodesy"));
+		timesheet.push(currentTime("Geodesy") + "SW count" + "mag count" + "Obs count");
 	}
 	
-	//300 Ships
-	if (game.resPool.resources[49].value >= 300 && !ships300) {
-		ships300 = true;
-		timesheet.push(currentTime("300 Ships"));
+	
+
+
+	//SETI
+	
+	if (game.workshop.upgrades[110].researched && !hasSETI) {
+		hasSETI = true;
+		timesheet.push(currentTime("SETI") + "obs count")
+	}
+	
+	//Orbital Launch
+	
+	if (game.space.planets[0].unlocked && !orbitalLaunch) {
+		orbitalLaunch = true;
+		timesheet.push(currentTime("Orbital Launch") + "obs count");
+	}
+	
+	//Moon mission
+	
+	if (game.space.planets[1].unlocked && !moonMission) {
+		moonMission = true;
+		timesheet.push(currentTime("Moon Mission") + "obs count");
 	}
 	
 	//First Lunar Outpost
@@ -275,25 +374,22 @@ function milestoneCheck() {
 		timesheet.push(currentTime("Outpost #1"));
 	}
 	
-	//Second Lunar Outpost
-	if (game.space.planets[1].buildings[0].val >= 2 && !outpost2) {
-		outpost2 = true;
-		timesheet.push(currentTime("Outpost #2"));
+	//Astrophysicists
+	if (game.workshop.upgrades[123].researched && !aphys) {
+		aphys = true;
+		timesheet.push(currentTime("Astrophysicists") + "Obs count");
 	}
 	
-	//Third Lunar Outpost
-	if (game.space.planets[1].buildings[0].val >= 3 && !outpost3) {
-		outpost3 = true;
-		timesheet.push(currentTime("Outpost #3"));
+	//Cryochamber
+	
+	if (game.time.voidspaceUpgrades[0].val >= 1 && !cryo) {
+		cryo = true;
+		timesheet.push(currentTime("Cryochamber") +  "lunar count" + "factory count");
 	}
 	
-	//Helios Launch
-	if (game.space.programs[4].val == 1 && !heliosLaunched) {
-		heliosLaunched = true;
-		timesheet.push(currentTime("Helios Launched"));
-	}
 	
 	//Master
+	
 	//empty skillArray
 	skillArray.splice(0, skillArray.length);
 	//fill it
@@ -301,13 +397,15 @@ function milestoneCheck() {
 	skillArray.push(findBestWorker("hunter").skills["hunter"]);
 	skillArray.push(findBestWorker("geologist").skills["geologist"]);
 	
+	//Check for master EXP
 	if (Math.max.apply(Math, skillArray) >= 9000) {
 		master = true;
-		masterInfo = currentTime("Master");
+		timesheet.push(currentTime("Master"));
 	}
 	
+	*/
 }
-	
+
 //Repeats at regular intervals
 function leadershipTick() {
 	rankNotify();
