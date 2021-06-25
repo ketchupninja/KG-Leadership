@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.6015 test initalized");
+console.log("Leadership v1.6016 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
@@ -281,7 +281,7 @@ Milestone.blu = {"academy" : 7, "observatory": 8, "steamworks": 17, "magneto": 1
 	
 //Also includes a building counts
 
-var Milestone.skillArray = [];
+Milestone.skillArray = [];
 
 const ironHoes = new Milestone("Iron Hoes", () => game.workshop.upgrades[1].researched);
 const kittens50 = new Milestone("50 Kittens", () => game.village.sim.kittens.length >= 50);
