@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.6018 test initalized");
+console.log("Leadership v1.6019 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
@@ -205,15 +205,15 @@ function rankNotify() {
 
 
 class Milestone {
-	
-
-	
 	constructor(label, condition, ids, outpost) {
 		this.label = label;
-		//console.log(condition);
 		this.condition = condition;
 		
 		this.btr = []
+		
+		console.log(label); //are my fancy ones even getting this far?
+		console.log(ids);
+		
 		if (ids != undefined) {
 			for (var bld in ids) {
 				id = Milestone.blu[bld]; //get number
