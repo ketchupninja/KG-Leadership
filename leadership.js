@@ -1,3 +1,4 @@
+
 //Javascript addon for the web-game Kittensgame, designed to make
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
@@ -232,7 +233,7 @@ class Milestone {
 	
 		
 	//Write down current game time , label, and any needed building counts to 'timesheet'
-	get record() {
+	record: function() {
 		if (!this.recorded) {
 			var readableSeason = game.calendar.season + 1;
 			
@@ -255,11 +256,11 @@ class Milestone {
 	}
 	
 	//Check if condition has been fulfilled
-	get checkCND() {
+	checkCND: function() {
 		if (condition) { this.fulfilled = true; }
 	}
 	
-	get isFulfilled() {
+	isFulfilled: function() {
 		return this.fulfilled;
 	}
 	
