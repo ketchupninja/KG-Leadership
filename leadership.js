@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.605 test initalized");
+console.log("Leadership v1.606 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
@@ -314,11 +314,9 @@ var skillArray = [];
 //If they have, it marks the time they were achieved in console
 function milestoneCheck() {
 	
-	for (ms in Milestone.allMilestones) {
-		console.log("AM from inside:" +  Milestone.allMilestones);
-		console.log(ms); //is ms actually a milestone???
-		//uh, says ms is "0"
-		//...
+	for (let i = 0; i < Milestone.allMilestones.length; i++) {
+		ms = Milestone.allMilestones[i]
+		console.log(ms); //maybe the for loop's nature was the issue
 		ms.checkCND();
 		
 		if (ms.isFulfilled) { 
