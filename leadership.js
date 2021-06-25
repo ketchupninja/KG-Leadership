@@ -1,10 +1,9 @@
-
 //Javascript addon for the web-game Kittensgame, designed to make
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.601 test initalized");
-//v1.601 test
+console.log("Leadership v1.602 test initalized");
+//v1.602 test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
 
