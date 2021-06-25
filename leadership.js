@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.6025 test initalized");
+console.log("Leadership v1.603 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
@@ -253,7 +253,7 @@ class Milestone {
 				ret += " " + game.bld.buildingsData[id].val + " " + game.bld.buildingsData[id].name;
 			}
 			
-			if (this.outpost) { ret += "  " + game.space.planets[1].buildings[0].val; }
+			if (this.outpost) { ret += "  " + game.space.planets[1].buildings[0].val + " " + game.space.planets[1].buildings[0].name; }
 			
 			Milestone.timesheet.push(ret);
 			this.recorded = true;
@@ -292,14 +292,14 @@ const acad130 = new Milestone("130 Academies", () => game.bld.buildingsData[7].v
 const merchant1 = new Milestone("Merchant Level 1", () => bestMerchant.rank >= 1 && bestMerchant.trait.name == "merchant", ["academy", "observatory"]);
 
 const geodesy = new Milestone("Geodesy", () => game.workshop.upgrades[55].researched, ["academy", "observatory", "steamworks", "magneto"]);
-const seti = new Milestone("SETI", () => game.workshop.upgrades[110].researched);
-const orbital = new Milestone("Orbital Launch", () => game.space.planets[0].unlocked);
-const moon = new Milestone("Moon Mission", () => game.space.planets[1].unlocked);
+const seti = new Milestone("SETI", () => game.workshop.upgrades[110].researched, ["academy", "observatory", "steamworks", "magneto"]);
+const orbital = new Milestone("Orbital Launch", () => game.space.planets[0].unlocked, ["academy", "observatory", "steamworks", "magneto", "factory"]);
+const moon = new Milestone("Moon Mission", () => game.space.planets[1].unlocked, ["academy", "observatory", "steamworks", "magneto", "factory"]);
 const lunar1 = new Milestone("Lunar Outpost #1", () => game.space.planets[1].buildings[0].val >= 1, ["academy", "observatory", "steamworks", "magneto", "factory"]);
 
-const astrophys = new Milestone("Astrophysicists", () => game.workshop.upgrades[123].researched);
+const astrophys = new Milestone("Astrophysicists", () => game.workshop.upgrades[123].researched, ["academy", "observatory", "steamworks", "magneto", "factory"], true);
 const cryo = new Milestone("Cryochamber", () => game.time.voidspaceUpgrades[0].val >= 1, ["academy", "observatory", "steamworks", "magneto", "factory"], true);
-const master = new Milestone("Master", () => masterExists() );
+const master = new Milestone("Master", () => masterExists(), ["academy"]);
 
 
 function masterExists() {
