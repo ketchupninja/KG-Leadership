@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.6012 test initalized");
+console.log("Leadership v1.6013 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
@@ -209,7 +209,7 @@ class Milestone {
 	
 	constructor(label, condition, ids, outpost) {
 		this.label = label;
-		console.log(condition);
+		//console.log(condition);
 		this.condition = condition;
 		
 		if (ids === undefined) {
@@ -229,7 +229,7 @@ class Milestone {
 		}
 	
 		Milestone.allMilestones.push(this);
-		console.log("All milestones = " + Milestone.allMilestones);
+		//console.log("All milestones = " + Milestone.allMilestones);
 	}
 	
 		
@@ -279,9 +279,8 @@ Milestone.allMilestones = [];
 //var hasIronHoes = false;
 
 const ironHoes = new Milestone("Iron Hoes", () => game.workshop.upgrades[1].researched);
-//const ironHoes = new Milestone("Iron Hoes", function ih() { return game.workshop.upgrades[1].researched; } );
-//const kittens50 = new Milestone("50 Kittens", () => (game.village.sim.kittens.length >= 50) );
-//const astro = new Milestone("Astronomy", () => (game.science.techs[17].researched) );
+const kittens50 = new Milestone("50 Kittens", () => game.village.sim.kittens.length >= 50);
+const astro = new Milestone("Astronomy", () => game.science.techs[17].researched);
 
 
 
@@ -318,7 +317,6 @@ function milestoneCheck() {
 	
 	for (let i = 0; i < Milestone.allMilestones.length; i++) {
 		ms = Milestone.allMilestones[i]
-		console.log(ms); //maybe the for loop's nature was the issue
 		ms.checkCND();
 		
 		if (ms.isFulfilled) { 
