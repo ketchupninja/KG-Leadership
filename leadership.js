@@ -2,8 +2,8 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.602 test initalized");
-//v1.602 test
+console.log("Leadership v1.603 test initalized");
+//v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
 
@@ -232,7 +232,7 @@ class Milestone {
 	
 		
 	//Write down current game time , label, and any needed building counts to 'timesheet'
-	record: function() {
+	record() {
 		if (!this.recorded) {
 			var readableSeason = game.calendar.season + 1;
 			
@@ -255,11 +255,11 @@ class Milestone {
 	}
 	
 	//Check if condition has been fulfilled
-	checkCND: function() {
+	checkCND() {
 		if (condition) { this.fulfilled = true; }
 	}
 	
-	isFulfilled: function() {
+	isFulfilled() {
 		return this.fulfilled;
 	}
 	
@@ -314,6 +314,7 @@ var skillArray = [];
 function milestoneCheck() {
 	
 	for (ms in Milestone.allMilestones) {
+		console.log(ms); //is ms actually a milestone???
 		ms.checkCND();
 		
 		if (ms.isFulfilled) { 
