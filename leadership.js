@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.6023 test initalized");
+console.log("Leadership v1.6024 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
@@ -216,7 +216,7 @@ class Milestone {
 		
 		if (ids != undefined) {
 			for (var i = 0; i < ids.length; i++) {
-				var id = Milestone.blu[ids[i];
+				var id = Milestone.blu[ids[i]];
 				this.btr.push(id);
 			}
 		}
