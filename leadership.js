@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v1.6024 test initalized");
+console.log("Leadership v1.6025 test initalized");
 //v1.60X test
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
@@ -224,7 +224,7 @@ class Milestone {
 		this.fulfilled = false; 
 		this.recorded = false;
 		
-		if (this.outpost === undefined) {
+		if (outpost === undefined) {
 			this.outpost = false; //whether to report lunar outpost count 
 		} else {
 			this.outpost = true;
@@ -250,10 +250,10 @@ class Milestone {
 			for (var i = 0; i < this.btr.length; i++) {
 				
 				var id = this.btr[i];
-				ret += " with " + game.bld.buildingsData[id].val + " " + game.bld.buildingsData[id].name;
+				ret += " " + game.bld.buildingsData[id].val + " " + game.bld.buildingsData[id].name;
 			}
 			
-			if (this.outpost) { ret += " with " + game.space.planets[1].buildings[0].val; }
+			if (this.outpost) { ret += "  " + game.space.planets[1].buildings[0].val; }
 			
 			Milestone.timesheet.push(ret);
 			this.recorded = true;
