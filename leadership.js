@@ -2,7 +2,9 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v2.0 initalized");
+console.log("Leadership v2.01 initalized");
+
+
 //Timesheet now includes counts of buildings at some milestones
 //e.g. observatories, magnetos, steamworks
 //Leadership now ticks every 1 second , up from 0.5 seconds
@@ -261,7 +263,7 @@ class Milestone {
 	
 	//Check if condition has been fulfilled
 	checkCND() {
-		if (this.condition) { this.fulfilled = true; }
+		if (this.condition == true) { this.fulfilled = true; }
 	}
 	
 	isFulfilled() {
@@ -318,10 +320,11 @@ function masterExists() {
 function milestoneCheck() {
 	
 	for (let i = 0; i < Milestone.allMilestones.length; i++) {
+		
 		ms = Milestone.allMilestones[i]
 		ms.checkCND();
 		
-		if (ms.isFulfilled) { 
+		if (ms.fulfilled) { 
 			ms.record();
 		}
 	}
