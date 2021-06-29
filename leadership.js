@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v2.052 initalized");
+console.log("Leadership v2.053 initalized");
 
 
 //Timesheet now includes counts of buildings at some milestones
@@ -310,7 +310,8 @@ function milestoneCheck() {
 	for (let i = 0; i < Milestone.allMilestones.length; i++) {
 		
 		ms = Milestone.allMilestones[i]
-		console.log(ms.label); //WHICH condition isn't a func? All of them?
+		console.log(ms.label + " " + typeof(ms.condition)); //WHICH condition isn't a func? All of them?
+		
 		if (ms.conditon && ms.fulfilled == false) {
 			ms.fulfilled = true;
 			ms.record();
