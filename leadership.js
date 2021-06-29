@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v2.056 initalized");
+console.log("Leadership v2.057 initalized");
 
 
 //Timesheet now includes counts of buildings at some milestones
@@ -280,7 +280,7 @@ const ironHoes = new Milestone("Iron Hoes", () => game.workshop.upgrades[1].rese
 const kittens50 = new Milestone("50 Kittens", () => game.village.sim.kittens.length >= 50);
 const astro = new Milestone("Astronomy", () => game.science.techs[17].researched, ["academy"]);
 const acad130 = new Milestone("130 Academies", () => game.bld.buildingsData[7].val >= 130);
-const merchant1 = new Milestone("Merchant Level 1", () => findBestLeader("merchant").rank >= 1 && bestMerchant.trait.name == "merchant", ["academy", "observatory"]);
+const merchant1 = new Milestone("Merchant Level 1", () => findBestLeader("merchant").rank >= 1 && findBestLeader("merchant").trait.name == "merchant", ["academy", "observatory"]);
 
 const geodesy = new Milestone("Geodesy", () => game.workshop.upgrades[55].researched, ["academy", "observatory", "steamworks", "magneto"]);
 const seti = new Milestone("SETI", () => game.workshop.upgrades[110].researched, ["academy", "observatory", "steamworks", "magneto"]);
