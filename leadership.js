@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v2.05 initalized");
+console.log("Leadership v2.051 initalized");
 
 
 //Timesheet now includes counts of buildings at some milestones
@@ -290,10 +290,7 @@ const lunar1 = new Milestone("Lunar Outpost #1", () => game.space.planets[1].bui
 
 const astrophys = new Milestone("Astrophysicists", () => game.workshop.upgrades[123].researched, ["academy", "observatory", "steamworks", "magneto", "factory"], true);
 const cryo = new Milestone("Cryochamber", () => game.time.voidspaceUpgrades[0].val >= 1, ["academy", "observatory", "steamworks", "magneto", "factory"], true);
-const master = new Milestone("Master", () => masterExists(), ["academy"]);
-
-
-function masterExists() {
+const master = new Milestone("Master", function masterExists() {
 	
 	//check best worker in each job
 	jobs = ["woodcutter", "farmer", "scholar", "hunter", "miner", "geologist", "priest"];
@@ -303,7 +300,8 @@ function masterExists() {
 	}
 	//none found
 	return false;
-}
+	
+	}, ["academy"]);
 
 //Checks if several run-important milestones have been reached
 //If they have, it marks the time they were achieved in console
@@ -312,7 +310,7 @@ function milestoneCheck() {
 	for (let i = 0; i < Milestone.allMilestones.length; i++) {
 		
 		ms = Milestone.allMilestones[i]
-		
+		console.log(ms.label); //WHICH condition isn't a func? All of them?
 		if (ms.conditon() && ms.fulfilled == false) {
 			ms.fulfilled = true;
 			ms.record();
