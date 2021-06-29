@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v2.021 initalized");
+console.log("Leadership v2.03 initalized");
 
 
 //Timesheet now includes counts of buildings at some milestones
@@ -212,8 +212,8 @@ class Milestone {
 		
 		this.btr = []
 		
-		console.log(label); //are my fancy ones even getting this far?
-		console.log(ids);
+		//console.log(label); //are my fancy ones even getting this far?
+		//console.log(ids);
 		
 		if (ids != undefined) {
 			for (var i = 0; i < ids.length; i++) {
@@ -265,6 +265,13 @@ class Milestone {
 	checkCND() {
 		if (this.condition == true) { 
 			this.fulfilled = true;
+			//??? This isn't being logged. 
+			//So although everything get recorded instantly,
+			//maybe the source of that is NOT an errouneously always-true condition?
+			
+			//...Ok, just checked, and fulfilled is actually always FALSE.
+			//And recorded is always true.
+			//So we actually have...two problems here.
 			console.log(this.label + " Fulfilled!!");
 		}
 	}
@@ -327,7 +334,9 @@ function milestoneCheck() {
 		ms = Milestone.allMilestones[i]
 		ms.checkCND();
 		
-		if (ms.isFulfilled) { 
+		if (ms.isFulfilled) {
+			console.log(ms.label + " is apparently fulfilled?");
+			console.log(ms.isFulfilled);
 			ms.record();
 		}
 	}
