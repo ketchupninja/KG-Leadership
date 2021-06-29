@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v2.01 initalized");
+console.log("Leadership v2.02 initalized");
 
 
 //Timesheet now includes counts of buildings at some milestones
@@ -263,7 +263,10 @@ class Milestone {
 	
 	//Check if condition has been fulfilled
 	checkCND() {
-		if (this.condition == true) { this.fulfilled = true; }
+		if (this.condition == true) { 
+			this.fulfilled = true;
+			console.log(this.label + " Fulfilled!!"	
+		}
 	}
 	
 	isFulfilled() {
@@ -324,7 +327,7 @@ function milestoneCheck() {
 		ms = Milestone.allMilestones[i]
 		ms.checkCND();
 		
-		if (ms.fulfilled) { 
+		if (ms.isFulfilled) { 
 			ms.record();
 		}
 	}
