@@ -2,7 +2,7 @@
 //provide keyboard shortcuts for common actions and make
 //more information available to the player. 
 
-console.log("Leadership v2.04 initalized");
+console.log("Leadership v2.05 initalized");
 
 
 //Timesheet now includes counts of buildings at some milestones
@@ -260,26 +260,6 @@ class Milestone {
 			this.recorded = true;
 		}
 	}
-	
-	//Check if condition has been fulfilled
-	checkCND() {
-		if (this.condition == true) { 
-			this.fulfilled = true;
-			//??? This isn't being logged. 
-			//So although everything get recorded instantly,
-			//maybe the source of that is NOT an errouneously always-true condition?
-			
-			//...Ok, just checked, and fulfilled is actually always FALSE.
-			//And recorded is always true.
-			//So we actually have...two problems here.
-			console.log(this.label + " Fulfilled!!");
-		}
-	}
-	
-	isFulfilled() {
-		return this.fulfilled;
-	}
-	
 }
 
 //Milestone class has static list Timesheet (?)
@@ -319,7 +299,7 @@ function masterExists() {
 	jobs = ["woodcutter", "farmer", "scholar", "hunter", "miner", "geologist", "priest"];
 	
 	for (var job in jobs) {
-		if (findBestWorker(job).skills(job) >= 9000) { return true; }
+		if (findBestWorker(job).skills[job] >= 9000) { return true; }
 	}
 	//none found
 	return false;
@@ -332,10 +312,9 @@ function milestoneCheck() {
 	for (let i = 0; i < Milestone.allMilestones.length; i++) {
 		
 		ms = Milestone.allMilestones[i]
-		ms.checkCND();
 		
-		if (ms.isFulfilled()) { //Forgot parens here, so it didnt evaluate as function.
-			console.log(ms.label + " is apparently fulfilled?");
+		if (ms.conditon() && ms.fulfilled == false) {
+			ms.fulfilled = true;
 			ms.record();
 		}
 	}
